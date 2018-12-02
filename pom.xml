@@ -12,7 +12,6 @@
     <name>Chat</name>
 
     <properties>
-        <project.version>0.0.1</project.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -20,6 +19,8 @@
         <hessian.version>4.0.51</hessian.version>
         <burlap.version>3.0.1</burlap.version>
         <log4j.version>1.2.17</log4j.version>
+        <dependency.version>3.1.1</dependency.version>
+        <jar.version>3.1.0</jar.version>
     </properties>
 
     <dependencies>
@@ -49,5 +50,6 @@
     <modules>
         <module>server</module>
         <module>client</module>
+        <module>common</module>
     </modules>
 </project>
