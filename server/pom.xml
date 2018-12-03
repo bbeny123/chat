@@ -18,7 +18,6 @@
             <groupId>org.beny.chat</groupId>
             <artifactId>common</artifactId>
             <version>${parent.version}</version>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

@@ -26,7 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.xmlrpc</groupId>
-            <artifactId>xmlrpc</artifactId>
+            <artifactId>xmlrpc-dist</artifactId>
             <version>${xmlrpc.version}</version>
             <type>pom</type>
         </dependency>
