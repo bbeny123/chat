@@ -103,7 +103,8 @@ public class ChatService {
         return true;
     }
 
-    public List<String> getChannels() {
+    public List<String> getChannels(Long userId) throws XmlRpcException {
+        getUser(userId);
         return channels.entrySet().stream().map(e -> e.getValue().getName()).collect(Collectors.toList());
     }
 
