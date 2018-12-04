@@ -105,6 +105,14 @@ public class ChatService {
         return true;
     }
 
+    public List<String> getChannels() {
+        return channels.entrySet().stream().map(e -> e.getValue().getName()).collect(Collectors.toList());
+    }
+
+    public List<String> getChannelUsers(Long userId) throws XmlRpcException {
+        return getUser(userId).getChannel().getUsers().stream().map(User::getNickname).collect(Collectors.toList());
+    }
+
     public List<Message> getMessages(Long userId, LocalDateTime from) throws XmlRpcException {
         User user = getUser(userId);
         List<Message> messages = new ArrayList<>(user.getPrivateMessages());
