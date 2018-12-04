@@ -4,6 +4,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.beny.chat.common.ChatUtil;
 import org.beny.chat.common.Config;
+import org.beny.chat.common.Methods;
 
 import java.net.URL;
 
@@ -19,7 +20,8 @@ public class Main {
 
         XmlRpcClient client = new XmlRpcClient();
         client.setConfig(config);
-        client.execute(ChatUtil.methodHandler("demo"), new Object[0]);
+        Long id = (Long) client.execute(ChatUtil.methodHandler(Methods.LOGIN), new Object[]{"Mariusz"});
+        System.out.println(id);
     }
 
 }

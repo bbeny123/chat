@@ -9,7 +9,11 @@ import org.beny.chat.server.ChatServer;
 import org.beny.chat.server.exception.ChatErrors;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class ChatService {
@@ -29,21 +33,15 @@ public class ChatService {
             throw new XmlRpcException(ChatErrors.NICKNAME_ALREADY_TAKEN.name());
         }
 
-        Long id = null;
-
-        Random random = new Random();
         for (int i = 0; i <= Config.MAX_GENERATION_ATTEMPTS; i++) {
-            id = random.nextLong();
+            Long id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
             if (!users.containsKey(id)) {
-                break;
-            } else if (i == Config.MAX_GENERATION_ATTEMPTS) {
-                throw new XmlRpcException(ChatErrors.INTERNAL_SERVER_EXCEPTION.name());
+                users.put(id, new User(id, nickname));
+                return id;
             }
         }
 
-        users.put(id, new User(id, nickname));
-
-        return id;
+        throw new XmlRpcException(ChatErrors.INTERNAL_SERVER_EXCEPTION.name());
     }
 
     public boolean logout(Long userId) throws XmlRpcException {
