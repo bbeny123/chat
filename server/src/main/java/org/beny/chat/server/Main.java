@@ -14,9 +14,8 @@ public class Main {
 
         PropertyHandlerMapping phm = new PropertyHandlerMapping();
         phm.setVoidMethodEnabled(true);
-        phm.addHandler(Config.HANDLER, ChatService.class);
+        phm.addHandler(Config.HANDLER, ChatServer.class);
         xmlRpcServer.setHandlerMapping(phm);
-
         XmlRpcServerConfigImpl serverConfig = (XmlRpcServerConfigImpl) xmlRpcServer.getConfig();
         serverConfig.setEnabledForExtensions(true);
         serverConfig.setContentLengthOptional(false);

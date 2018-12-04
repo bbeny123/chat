@@ -1,0 +1,15 @@
+package org.beny.chat.server.exception;
+
+public enum ChatErrors {
+
+    NICKNAME_ALREADY_TAKEN,
+    CHANNEL_NAME_ALREADY_TAKEN,
+    CHANNEL_NOT_FOUND,
+    USER_NOT_FOUND,
+    ALREADY_ON_CHANNEL,
+    NOT_ON_CHANNEL,
+
+    INTERNAL_SERVER_EXCEPTION,
+    INTERNAL_SERVER_CRITICAL_EXCEPTION
+
+}
