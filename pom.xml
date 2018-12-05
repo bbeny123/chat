@@ -25,31 +25,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.xmlrpc</groupId>
-            <artifactId>xmlrpc-dist</artifactId>
-            <version>${xmlrpc.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>${hessian.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.brown.cs.burlap</groupId>
-            <artifactId>burlap</artifactId>
-            <version>${burlap.version}</version>
-        </dependency>
-        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <modules>
-        <module>server</module>
-        <module>client</module>
+        <module>apps</module>
         <module>common</module>
     </modules>
+
 </project>

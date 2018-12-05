@@ -10,14 +10,25 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>server</artifactId>
-    <packaging>jar</packaging>
-
+    <artifactId>apps</artifactId>
+    <packaging>pom</packaging>
+    
     <dependencies>
         <dependency>
             <groupId>org.beny.chat</groupId>
             <artifactId>common</artifactId>
             <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>${hessian.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.brown.cs.burlap</groupId>
+            <artifactId>burlap</artifactId>
+            <version>${burlap.version}</version>
         </dependency>
     </dependencies>
 
@@ -43,20 +54,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${jar.version}</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.beny.chat.server.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -67,5 +65,10 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>client</module>
+        <module>server</module>
+    </modules>
 
 </project>
