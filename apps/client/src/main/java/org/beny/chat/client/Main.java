@@ -1,27 +1,32 @@
 package org.beny.chat.client;
 
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.beny.chat.common.ChatUtil;
-import org.beny.chat.common.Config;
-import org.beny.chat.common.Methods;
+import org.beny.chat.common.exception.ChatException;
 
-import java.net.URL;
+import static org.beny.chat.client.ChatClient.getService;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-        config.setServerURL(new URL(Config.URL));
-        config.setEnabledForExtensions(true);
-        config.setContentLengthOptional(false);
-        config.setConnectionTimeout(Config.TIMEOUT);
-        config.setReplyTimeout(Config.TIMEOUT);
+//        Util.checkInput(new Scanner(System.in).next());
 
-        XmlRpcClient client = new XmlRpcClient();
-        client.setConfig(config);
-        Long id = (Long) client.execute(ChatUtil.methodHandler(Methods.LOGIN), new Object[]{"Mariusz"});
-        System.out.println(id);
+        getService().login("Beny");
+//        getService().channelMessage(ChatClient.getId(), "marian");
+        try {
+            getService().joinChannel(ChatClient.getId(),"marian");
+        } catch (ChatException ex) {
+            System.out.println(ex);
+            Throwable a = ex.getCause();
+            System.out.println(ex.getCause());
+        } catch (Exception ex) {
+            System.out.println(ex);
+            Throwable a = ex.getCause();
+            System.out.println(ex.getCause());
+        }
+//
+//        channelMessage("xddddddd");
+//        System.out.println(getChannels());
+//        System.out.println(getChannelUsers());
+//        System.out.println(getMessages());
     }
 
 }
