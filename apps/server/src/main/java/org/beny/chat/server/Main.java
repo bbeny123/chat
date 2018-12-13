@@ -23,6 +23,7 @@ public class Main {
         XmlRpcServerConfigImpl serverConfig = (XmlRpcServerConfigImpl) xmlRpcServer.getConfig();
         serverConfig.setEnabledForExtensions(true);
         serverConfig.setContentLengthOptional(false);
+        serverConfig.setEnabledForExceptions(true);
 
         webServer.start();
     }

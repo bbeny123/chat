@@ -22,6 +22,7 @@ public enum ChatClient {
             XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
             config.setServerURL(new URL(Config.URL));
             config.setEnabledForExtensions(true);
+            config.setEnabledForExceptions(true);
             config.setConnectionTimeout(Config.TIMEOUT);
             config.setReplyTimeout(Config.TIMEOUT);
 

@@ -3,29 +3,43 @@ package org.beny.chat.common.exception;
 public class ChatException extends Exception {
 
     public enum ChatErrors {
-        NICKNAME_ALREADY_TAKEN,
-        CHANNEL_NAME_ALREADY_TAKEN,
-        CHANNEL_NOT_FOUND,
-        USER_NOT_FOUND,
-        ALREADY_ON_CHANNEL,
-        NOT_ON_CHANNEL,
+        NICKNAME_ALREADY_TAKEN(103, "Nickname already taken"),
+        USER_NOT_FOUND(104, "User not found"),
+        CHANNEL_NAME_ALREADY_TAKEN(201, "A channel with this name already exists"),
+        ALREADY_ON_CHANNEL(202, "Already on that channel"),
+        NOT_ON_CHANNEL(203, "Not on channel"),
+        CHANNEL_NOT_FOUND(204, "Channel not found"),
 
-        INTERNAL_SERVER_EXCEPTION,
-        INTERNAL_SERVER_CRITICAL_EXCEPTION
+        INTERNAL_SERVER_EXCEPTION(500, "INTERNAL SERVER EXCEPTION"),
+        INTERNAL_SERVER_CRITICAL_EXCEPTION(501, "CRITICAL INTERNAL SERVER EXCEPTION");
+
+        private int code;
+        private String message;
+
+        ChatErrors(int code, String message) {
+            this.code = code;
+            this.message = message;
+        }
     }
 
-    private ChatErrors error;
+    private final ChatErrors error;
 
     public ChatException(ChatErrors error) {
         super(error.name());
         this.error = error;
     }
 
-    public void setError(ChatErrors error) {
-        this.error = error;
+    public int getErrorCode() {
+        return error.code;
     }
 
-    public ChatErrors getError() {
-        return error;
+    public String getMessage() {
+        return error.message;
     }
+
+    @Override
+    public String toString() {
+        return error.code + ": " + error.message;
+    }
+
 }

@@ -52,7 +52,12 @@ public class ChatServiceImpl implements ChatService {
     }
 
     public boolean logout(Long userId) throws ChatException {
-        users.remove(getUser(userId).getId());
+        User user = getUser(userId);
+
+        if (user.getChannel() != null) {
+            user.getChannel().getUsers().remove(user);
+        }
+        users.remove(userId);
 
         logger.info(String.format("User logged out - nick: %d", userId));
 

@@ -1,27 +1,21 @@
 package org.beny.chat.client;
 
-import org.beny.chat.common.exception.ChatException;
-
-import static org.beny.chat.client.ChatClient.getService;
+import static org.beny.chat.client.service.ClientService.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 //        Util.checkInput(new Scanner(System.in).next());
 
-        getService().login("Beny");
+        login("Beny2");
+        createChannel("mariusz2");
+        joinChannel("mariusz");
+        channelMessage("asd");
+        channelMessage("bsd");
+        System.out.println(getMessages());
+        System.out.println(getChannels());
+        System.out.println(getChannelUsers());
 //        getService().channelMessage(ChatClient.getId(), "marian");
-        try {
-            getService().joinChannel(ChatClient.getId(),"marian");
-        } catch (ChatException ex) {
-            System.out.println(ex);
-            Throwable a = ex.getCause();
-            System.out.println(ex.getCause());
-        } catch (Exception ex) {
-            System.out.println(ex);
-            Throwable a = ex.getCause();
-            System.out.println(ex.getCause());
-        }
 //
 //        channelMessage("xddddddd");
 //        System.out.println(getChannels());
