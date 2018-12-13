@@ -27,7 +27,7 @@ public class ChatServiceImpl implements ChatService {
     private final Map<Long, User> users = ChatServer.INSTANCE.getUsers();
 
     private User getUser(Long userId) throws ChatException {
-        User user = users.entrySet().stream().filter(e -> e.getKey().equals(userId)).findAny().orElseThrow(() -> new ChatException(INTERNAL_SERVER_CRITICAL_EXCEPTION)).getValue();
+        User user = users.entrySet().stream().filter(e -> e.getKey().equals(userId)).findAny().orElseThrow(() -> new ChatException(USER_NOT_LOGGED_IN)).getValue();
         user.setLastActivity(LocalDateTime.now());
         return user;
     }

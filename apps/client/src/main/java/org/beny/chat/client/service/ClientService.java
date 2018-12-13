@@ -9,14 +9,21 @@ import static org.beny.chat.client.ChatClient.*;
 
 public class ClientService {
 
-    public static void login(String nick) throws Exception {
-        ChatClient.login(getService().login(nick));
-
-        System.out.println(getId());
+    public static Long login(String nick) throws Exception {
+        Long id = ChatClient.getId();
+        if (id != null) {
+            ChatClient.logout();
+            getService().logout(id);
+        }
+        id = getService().login(nick);
+        ChatClient.login(id);
+        return id;
     }
 
     public static boolean logout() throws Exception {
-        return getService().logout(getId());
+        Long id = ChatClient.getId();
+        ChatClient.logout();
+        return getService().logout(id);
     }
 
     public static boolean createChannel(String name) throws Exception {
@@ -44,7 +51,7 @@ public class ClientService {
     }
 
     public static List<Message> getMessages() throws Exception {
-        List<Message> messages = getService().getMessages(getId(), getSyncDate().minusHours(1));
+        List<Message> messages = getService().getMessages(getId(), getSyncDate());
         syncDate();
         return messages;
     }

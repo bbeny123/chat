@@ -1,26 +1,27 @@
 package org.beny.chat.client;
 
-import static org.beny.chat.client.service.ClientService.*;
+import org.beny.chat.client.util.FetchMessages;
+import org.beny.chat.client.util.InputUtil;
+import org.beny.chat.common.Config;
+import org.beny.chat.common.exception.ChatException;
+
+import java.util.Scanner;
+import java.util.Timer;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-//        Util.checkInput(new Scanner(System.in).next());
+        new Timer().schedule(new FetchMessages(), Config.FETCH_MESSAGES_PERIOD_IN_MS, Config.FETCH_MESSAGES_PERIOD_IN_MS);
 
-        login("Beny2");
-        createChannel("mariusz2");
-        joinChannel("mariusz");
-        channelMessage("asd");
-        channelMessage("bsd");
-        System.out.println(getMessages());
-        System.out.println(getChannels());
-        System.out.println(getChannelUsers());
-//        getService().channelMessage(ChatClient.getId(), "marian");
-//
-//        channelMessage("xddddddd");
-//        System.out.println(getChannels());
-//        System.out.println(getChannelUsers());
-//        System.out.println(getMessages());
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try{
+                InputUtil.checkInput(scanner.nextLine());
+            } catch (ChatException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
     }
 
 }

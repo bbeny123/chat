@@ -46,6 +46,10 @@ public enum ChatClient {
         syncDate();
     }
 
+    public static void logout() {
+        INSTANCE.id = null;
+    }
+
     public static ChatService getService() {
         return INSTANCE.service;
     }

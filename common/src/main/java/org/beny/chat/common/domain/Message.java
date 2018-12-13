@@ -24,7 +24,7 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + sentDate.format(DateTimeFormatter.ISO_LOCAL_TIME) + "] "
+        return "[" + sentDate.format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "] "
                 + (privateMessage ? "[W] " : "")
                 + source + ": "
                 + message;
