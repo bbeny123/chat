@@ -99,6 +99,8 @@ public class ChatServiceImpl implements ChatService {
         user.setChannel(channel);
         channel.getUsers().add(user);
 
+        channel.getChannelMessages().add(new Message(user.getNickname() + " entered channel!", null, Message.MessageTypes.ADMIN));
+
         logger.info(String.format("User joined channel - user: %s (%d); channel: %s", user.getNickname(), userId, channelName));
 
         return true;
@@ -110,7 +112,7 @@ public class ChatServiceImpl implements ChatService {
             throw new ChatException(NOT_ON_CHANNEL);
         }
 
-        user.getChannel().getChannelMessages().add(new Message(message, user.getNickname(), false));
+        user.getChannel().getChannelMessages().add(new Message(message, user.getNickname(), Message.MessageTypes.CHANNEL));
 
         logger.info(String.format("Channel message - user: %s (%d); message: %s", user.getNickname(), userId, message));
 
@@ -121,7 +123,8 @@ public class ChatServiceImpl implements ChatService {
         User user = getUser(userId);
         User target = users.entrySet().stream().filter(e -> e.getValue().getNickname().equals(targetNickname)).findAny().orElseThrow(() -> new ChatException(USER_NOT_FOUND)).getValue();
 
-        target.getPrivateMessages().add(new Message(message, user.getNickname(), true));
+        user.getPrivateMessages().add(new Message(message, target.getNickname(), Message.MessageTypes.WHISPER_TO));
+        target.getPrivateMessages().add(new Message(message, user.getNickname(), Message.MessageTypes.WHISPER_FROM));
 
         logger.info(String.format("Private message - user: %s (%d); target: %s (%d); message: %s", user.getNickname(), userId, targetNickname, target.getId(), message));
 
