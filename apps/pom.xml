@@ -12,7 +12,12 @@
 
     <artifactId>apps</artifactId>
     <packaging>pom</packaging>
-    
+
+    <modules>
+        <module>client</module>
+        <module>server</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.beny.chat</groupId>
@@ -24,10 +29,6 @@
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
         </dependency>
-        <dependency>
-            <groupId>edu.brown.cs.burlap</groupId>
-            <artifactId>burlap</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -38,10 +39,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <modules>
-        <module>client</module>
-        <module>server</module>
-    </modules>
 
 </project>

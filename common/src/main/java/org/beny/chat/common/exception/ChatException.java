@@ -14,8 +14,7 @@ public class ChatException extends Exception {
         UNRECOGNIZED_COMMAND(300, "Unrecognized command!"),
         WRONG_NAME(301, "Entered name is not valid"),
 
-        INTERNAL_SERVER_EXCEPTION(500, "INTERNAL SERVER EXCEPTION"),
-        INTERNAL_SERVER_CRITICAL_EXCEPTION(501, "CRITICAL INTERNAL SERVER EXCEPTION");
+        INTERNAL_SERVER_EXCEPTION(500, "INTERNAL SERVER EXCEPTION");
 
         private int code;
         private String message;
