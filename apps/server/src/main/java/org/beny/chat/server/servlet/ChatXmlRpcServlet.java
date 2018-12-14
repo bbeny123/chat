@@ -1,4 +1,4 @@
-package org.beny.chat.server;
+package org.beny.chat.server.servlet;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.server.PropertyHandlerMapping;
@@ -8,7 +8,7 @@ import org.apache.xmlrpc.webserver.XmlRpcServlet;
 import org.apache.xmlrpc.webserver.XmlRpcServletServer;
 import org.beny.chat.common.ChatService;
 import org.beny.chat.common.Config;
-import org.beny.chat.server.service.ChatServiceImpl;
+import org.beny.chat.server.service.ChatServiceXmlRpc;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +32,8 @@ public class ChatXmlRpcServlet extends XmlRpcServlet {
     protected XmlRpcHandlerMapping newXmlRpcHandlerMapping() throws XmlRpcException {
         PropertyHandlerMapping phm = new PropertyHandlerMapping();
         phm.setVoidMethodEnabled(true);
-        phm.addHandler(ChatService.class.getName(), ChatServiceImpl.class);
+
+        phm.addHandler(ChatService.class.getName(), ChatServiceXmlRpc.class);
         return phm;
     }
 }
