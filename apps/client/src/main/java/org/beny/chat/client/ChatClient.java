@@ -11,14 +11,14 @@ import org.beny.chat.common.Config;
 import org.beny.chat.common.domain.Message;
 
 import java.net.URL;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public enum ChatClient {
     INSTANCE;
 
     private Long id;
-    private Date lastSyncDate;
+    private Calendar lastSyncDate;
     private ChatService xmlRpcClient;
     private ChatService hessianClient;
     private ChatService burlapClient;
@@ -39,7 +39,7 @@ public enum ChatClient {
             logout();
         }
         INSTANCE.id = getService().login(nick);
-        INSTANCE.lastSyncDate = new Date();
+        INSTANCE.lastSyncDate = Calendar.getInstance();
         return getId();
     }
 
@@ -76,7 +76,7 @@ public enum ChatClient {
 
     public static List<Message> getMessages() throws Exception {
         List<Message> messages = getService().getMessages(getId(), INSTANCE.lastSyncDate);
-        INSTANCE.lastSyncDate = new Date();
+        INSTANCE.lastSyncDate = Calendar.getInstance();
         return messages;
     }
 

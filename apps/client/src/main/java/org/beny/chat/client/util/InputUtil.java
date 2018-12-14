@@ -95,7 +95,7 @@ public class InputUtil {
         if (whisperArray.length < 2 || whisperArray[1].trim().length() <= 0) {
             throw new ChatException(UNRECOGNIZED_COMMAND);
         }
-        if (whisperArray[1].trim().chars().anyMatch(c -> !Character.isLetterOrDigit(c))) {
+        if (whisperArray[0].trim().chars().anyMatch(c -> !Character.isLetterOrDigit(c))) {
             throw new ChatException(WRONG_NAME);
         }
         ChatClient.privateMessage(whisperArray[0], whisperArray[1]);

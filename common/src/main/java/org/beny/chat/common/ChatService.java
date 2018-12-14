@@ -3,7 +3,7 @@ package org.beny.chat.common;
 import org.beny.chat.common.domain.Message;
 import org.beny.chat.common.exception.ChatException;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public interface ChatService {
@@ -16,6 +16,6 @@ public interface ChatService {
     boolean privateMessage(Long userId, String targetNickname, String message) throws ChatException;
     List<String> getChannels(Long userId) throws ChatException;
     List<String> getChannelUsers(Long userId) throws ChatException;
-    List<Message> getMessages(Long userId, Date from) throws ChatException;
+    List<Message> getMessages(Long userId, Calendar from) throws ChatException;
 
 }

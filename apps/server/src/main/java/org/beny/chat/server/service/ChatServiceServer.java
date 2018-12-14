@@ -12,8 +12,8 @@ import org.beny.chat.server.ChatServer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -156,7 +156,7 @@ public interface ChatServiceServer extends ChatService {
     }
 
     @Override
-    default List<Message> getMessages(Long userId, Date from) throws ChatException {
+    default List<Message> getMessages(Long userId, Calendar from) throws ChatException {
         User user = getUser(userId);
         List<Message> messages = new ArrayList<>(user.getPrivateMessages());
 
