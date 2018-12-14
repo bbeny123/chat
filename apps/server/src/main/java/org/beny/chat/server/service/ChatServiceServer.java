@@ -8,16 +8,17 @@ import org.beny.chat.common.domain.Channel;
 import org.beny.chat.common.domain.Message;
 import org.beny.chat.common.domain.User;
 import org.beny.chat.common.exception.ChatException;
+import org.beny.chat.server.ChatServer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static org.beny.chat.common.exception.ChatException.ChatErrors.*;
-import static org.beny.chat.server.ChatServer.INSTANCE;
 
 public interface ChatServiceServer extends ChatService {
 
@@ -28,22 +29,23 @@ public interface ChatServiceServer extends ChatService {
     }
 
     default User getUser(Long userId) throws ChatException {
-        User user = INSTANCE.getUsers().entrySet().stream().filter(e -> e.getKey().equals(userId)).findAny().orElseThrow(() -> new ChatException(USER_NOT_LOGGED_IN)).getValue();
+        User user = ChatServer.getUsers().entrySet().stream().filter(e -> e.getKey().equals(userId)).findAny().orElseThrow(() -> new ChatException(USER_NOT_LOGGED_IN)).getValue();
         user.setLastActivity(LocalDateTime.now());
         return user;
     }
 
+    @Override
     default Long login(String nickname) throws ChatException {
-        if (INSTANCE.getUsers().entrySet().stream().anyMatch(e -> e.getValue().getNickname().equals(nickname))) {
+        if (ChatServer.getUsers().entrySet().stream().anyMatch(e -> e.getValue().getNickname().equals(nickname))) {
             throw new ChatException(NICKNAME_ALREADY_TAKEN);
         }
 
         for (int i = 0; i <= Config.MAX_GENERATION_ATTEMPTS; i++) {
             Long id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
-            if (!INSTANCE.getUsers().containsKey(id)) {
-                INSTANCE.getUsers().put(id, new User(id, nickname));
+            if (!ChatServer.getUsers().containsKey(id)) {
+                ChatServer.getUsers().put(id, new User(id, nickname));
 
-                getLogger().info(String.format("User logged - nick: %s (%d)", nickname, id));
+                getLogger().info(String.format("User logged in - nick: %s (%d)", nickname, id));
 
                 return id;
             }
@@ -52,28 +54,30 @@ public interface ChatServiceServer extends ChatService {
         throw new ChatException(INTERNAL_SERVER_EXCEPTION);
     }
 
+    @Override
     default boolean logout(Long userId) throws ChatException {
         User user = getUser(userId);
 
         if (user.getChannel() != null) {
             user.getChannel().getUsers().remove(user);
         }
-        INSTANCE.getUsers().remove(userId);
+        ChatServer.getUsers().remove(userId);
 
         getLogger().info(String.format("User logged out - nick: %d", userId));
 
         return true;
     }
 
+    @Override
     default boolean createChannel(Long userId, String channelName) throws ChatException {
-        if (INSTANCE.getChannels().containsKey(channelName)) {
+        if (ChatServer.getChannels().containsKey(channelName)) {
             throw new ChatException(CHANNEL_NAME_ALREADY_TAKEN);
         }
 
         User user = getUser(userId);
 
         Channel channel = new Channel(channelName, user);
-        INSTANCE.getChannels().put(channelName, channel);
+        ChatServer.getChannels().put(channelName, channel);
         user.setChannel(channel);
 
         getLogger().info(String.format("Channel created - user: %s (%d); channel: %s", user.getNickname(), userId, channelName));
@@ -81,8 +85,9 @@ public interface ChatServiceServer extends ChatService {
         return true;
     }
 
+    @Override
     default boolean joinChannel(Long userId, String channelName) throws ChatException {
-        if (!INSTANCE.getChannels().containsKey(channelName)) {
+        if (!ChatServer.getChannels().containsKey(channelName)) {
             throw new ChatException(CHANNEL_NOT_FOUND);
         }
 
@@ -93,10 +98,10 @@ public interface ChatServiceServer extends ChatService {
         }
 
         if (user.getChannel() != null) {
-            INSTANCE.getChannels().get(user.getChannel().getName()).getUsers().removeIf(u -> u.getId().equals(userId));
+            ChatServer.getChannels().get(user.getChannel().getName()).getUsers().removeIf(u -> u.getId().equals(userId));
         }
 
-        Channel channel = INSTANCE.getChannels().get(channelName);
+        Channel channel = ChatServer.getChannels().get(channelName);
         user.setChannel(channel);
         channel.getUsers().add(user);
 
@@ -107,6 +112,7 @@ public interface ChatServiceServer extends ChatService {
         return true;
     }
 
+    @Override
     default boolean channelMessage(Long userId, String message) throws ChatException {
         User user = getUser(userId);
         if (user.getChannel() == null) {
@@ -120,9 +126,10 @@ public interface ChatServiceServer extends ChatService {
         return true;
     }
 
+    @Override
     default boolean privateMessage(Long userId, String targetNickname, String message) throws ChatException {
         User user = getUser(userId);
-        User target = INSTANCE.getUsers().entrySet().stream().filter(e -> e.getValue().getNickname().equals(targetNickname)).findAny().orElseThrow(() -> new ChatException(USER_NOT_FOUND)).getValue();
+        User target = ChatServer.getUsers().entrySet().stream().filter(e -> e.getValue().getNickname().equals(targetNickname)).findAny().orElseThrow(() -> new ChatException(USER_NOT_FOUND)).getValue();
 
         user.getPrivateMessages().add(new Message(message, target.getNickname(), Message.MessageTypes.WHISPER_TO));
         target.getPrivateMessages().add(new Message(message, user.getNickname(), Message.MessageTypes.WHISPER_FROM));
@@ -132,21 +139,24 @@ public interface ChatServiceServer extends ChatService {
         return true;
     }
 
+    @Override
     default List<String> getChannels(Long userId) throws ChatException {
         getUser(userId);
 
         getLogger().info(String.format("Channels requested - user: %d", userId));
 
-        return INSTANCE.getChannels().entrySet().stream().map(e -> e.getValue().getName()).collect(Collectors.toList());
+        return ChatServer.getChannels().entrySet().stream().map(e -> e.getValue().getName()).collect(Collectors.toList());
     }
 
+    @Override
     default List<String> getChannelUsers(Long userId) throws ChatException {
         getLogger().info(String.format("Channel users requested - user: %d", userId));
 
         return getUser(userId).getChannel().getUsers().stream().map(User::getNickname).collect(Collectors.toList());
     }
 
-    default List<Message> getMessages(Long userId, LocalDateTime from) throws ChatException {
+    @Override
+    default List<Message> getMessages(Long userId, Date from) throws ChatException {
         User user = getUser(userId);
         List<Message> messages = new ArrayList<>(user.getPrivateMessages());
 
@@ -156,7 +166,7 @@ public interface ChatServiceServer extends ChatService {
 
         getLogger().info(String.format("Messages requested - user: %s (%d)", user.getNickname(), userId));
 
-        return messages.stream().filter(m -> m.getSentDate().isAfter(from)).sorted(Comparator.comparing(Message::getSentDate)).collect(Collectors.toList());
+        return messages.stream().filter(m -> m.getSentDate().after(from)).sorted(Comparator.comparing(Message::getSentDate)).collect(Collectors.toList());
     }
 
 }

@@ -19,11 +19,11 @@ public enum ChatServer {
         new Timer().schedule(new RemoveInactiveUsers(), Config.REMOVE_INACTIVE_TASK_PERIOD_IN_MS, Config.REMOVE_INACTIVE_TASK_PERIOD_IN_MS);
     }
 
-    public Map<String, Channel> getChannels() {
-        return channels;
+    public static Map<String, Channel> getChannels() {
+        return INSTANCE.channels;
     }
 
-    public Map<Long, User> getUsers() {
-        return users;
+    public static Map<Long, User> getUsers() {
+        return INSTANCE.users;
     }
 }
