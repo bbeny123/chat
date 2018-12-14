@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.beny.chat</groupId>
             <artifactId>common</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
