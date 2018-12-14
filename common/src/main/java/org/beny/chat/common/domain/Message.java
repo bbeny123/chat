@@ -1,8 +1,9 @@
 package org.beny.chat.common.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static org.beny.chat.common.domain.Message.MessageTypes.*;
 
@@ -17,23 +18,23 @@ public class Message implements Serializable {
 
     private String message;
     private String source;
-    private LocalDateTime sentDate;
+    private Date sentDate;
     private int messageType;
 
     public Message(String message, String source, int messageType) {
         this.message = message;
         this.source = source;
-        this.sentDate = LocalDateTime.now();
+        this.sentDate = new Date();
         this.messageType = messageType;
     }
 
-    public LocalDateTime getSentDate() {
+    public Date getSentDate() {
         return sentDate;
     }
 
     @Override
     public String toString() {
-        return "[" + sentDate.format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "] "
+        return "[" + new Timestamp(sentDate.getTime()).toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "] "
                 + (messageType == ADMIN ? "[INFO] " : messageType == WHISPER_FROM ? "[W] ": messageType == WHISPER_TO ? "[W TO] " : "")
                 + (source != null ? source + ": " : "")
                 + message;

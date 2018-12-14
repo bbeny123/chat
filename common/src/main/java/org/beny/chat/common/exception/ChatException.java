@@ -1,5 +1,8 @@
 package org.beny.chat.common.exception;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class ChatException extends Exception {
 
     public enum ChatErrors {
@@ -38,6 +41,10 @@ public class ChatException extends Exception {
 
     public String getMessage() {
         return error.message;
+    }
+
+    public String getClientMessage() {
+        return String.format("[%s] [INFO] " + error.message, LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 
     @Override

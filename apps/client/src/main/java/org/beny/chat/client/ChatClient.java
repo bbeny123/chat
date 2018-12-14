@@ -75,7 +75,6 @@ public enum ChatClient {
     }
 
     public static List<Message> getMessages() throws Exception {
-        System.out.println(INSTANCE.lastSyncDate.getTime());
         List<Message> messages = getService().getMessages(getId(), INSTANCE.lastSyncDate);
         INSTANCE.lastSyncDate = new Date();
         return messages;
