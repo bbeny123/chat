@@ -67,7 +67,7 @@ public class InputUtil {
         validNameArgumentCommand(inputArray);
 
         if (ChatClient.joinChannel(inputArray[1].trim())) {
-            info("[INFO] Joined channel: " + inputArray[1]);
+            info("Joined channel: " + inputArray[1]);
         }
     }
 
@@ -75,7 +75,7 @@ public class InputUtil {
         validNameArgumentCommand(inputArray);
 
         if (ChatClient.createChannel(inputArray[1].trim())) {
-            info("[INFO] Created and joined channel: " + inputArray[1]);
+            info("Created and joined channel: " + inputArray[1]);
         }
     }
 

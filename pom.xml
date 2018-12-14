@@ -28,7 +28,7 @@
         <dependency.version>3.1.1</dependency.version>
         <jar.version>3.1.0</jar.version>
         <war.version>3.2.2</war.version>
-        <tomcat.version>3.0-r1756463</tomcat.version>
+        <tomcat.version>2.1</tomcat.version>
     </properties>
 
     <dependencyManagement>
@@ -125,7 +125,7 @@
 
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat8-maven-plugin</artifactId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>${tomcat.version}</version>
                 </plugin>
             </plugins>
