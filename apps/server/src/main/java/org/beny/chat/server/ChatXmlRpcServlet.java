@@ -7,12 +7,13 @@ import org.apache.xmlrpc.server.XmlRpcServerConfigImpl;
 import org.apache.xmlrpc.webserver.XmlRpcServlet;
 import org.apache.xmlrpc.webserver.XmlRpcServletServer;
 import org.beny.chat.common.ChatService;
+import org.beny.chat.common.Config;
 import org.beny.chat.server.service.ChatServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/xmlrpc")
+@WebServlet(Config.URI_XMLRPC)
 public class ChatXmlRpcServlet extends XmlRpcServlet {
 
     @Override
